@@ -92,7 +92,7 @@ const generalMessages = {
   "header-quote":
     "Hello, I want a quote for your ISP, Fiber and Cable TV products. Please share the available options.",
   "footer-contact":
-    "Hello, I want to contact CiaTelecom Store regarding your products.",
+    "Hello, I want to contact CiaTelecom Services regarding your products.",
   "floating-cta":
     "Hello, I want to inquire about your products on WhatsApp.",
 };

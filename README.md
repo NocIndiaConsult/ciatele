@@ -1,4 +1,4 @@
-# CiaTelecom Store
+# CiaTelecom Services
 
 Single-company ecommerce storefront for ISP, Cable TV, Fiber, ONT and Modem products with direct WhatsApp inquiry.
 

@@ -76,16 +76,11 @@ button {
   text-decoration: none;
 }
 
-.brand-mark {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #405775 0%, #2c4058 100%);
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+.brand-logo {
+  width: 150px;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .brand-copy {
@@ -488,6 +483,19 @@ button {
   align-items: start;
 }
 
+.admin-branding {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-logo {
+  width: 180px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 .admin-link {
   color: var(--action);
   font-weight: 700;
@@ -695,10 +703,8 @@ button {
     gap: 10px;
   }
 
-  .brand-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
+  .brand-logo {
+    width: 108px;
   }
 
   .brand-copy strong {
@@ -707,6 +713,15 @@ button {
 
   .brand-copy small {
     font-size: 0.8rem;
+  }
+
+  .admin-branding {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-logo {
+    width: 140px;
   }
 
   .header-search {

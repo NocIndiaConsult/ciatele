@@ -9,7 +9,7 @@ const starterProducts = [
   {
     name: "Dual Band Wi-Fi Modem",
     category: "ISP Equipment",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Stable broadband modem for home users, office connections and local ISP installations.",
     price: "Ask for latest rate",
     moq: "Single / bulk available",
@@ -19,7 +19,7 @@ const starterProducts = [
   {
     name: "FTTH ONT Device",
     category: "Fiber Products",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Reliable ONT unit for FTTH deployment, subscriber setup and broadband activation.",
     price: "Project and dealer rates",
     moq: "10 pcs onwards",
@@ -29,7 +29,7 @@ const starterProducts = [
   {
     name: "Fiber Drop Cable Roll",
     category: "Fiber Products",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Outdoor-ready fiber drop cable for local operator installation and network expansion.",
     price: "Per roll pricing",
     moq: "Bulk preferred",
@@ -39,7 +39,7 @@ const starterProducts = [
   {
     name: "Cable TV Splitter",
     category: "Cable TV Supply",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Distribution-ready cable TV splitter for multi-point signal management.",
     price: "Wholesale rate on inquiry",
     moq: "20 pcs onwards",
@@ -49,7 +49,7 @@ const starterProducts = [
   {
     name: "GPON Router Combo",
     category: "ISP Equipment",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Combined router and fiber-ready device for fast deployment and customer setup.",
     price: "Custom pricing available",
     moq: "Retail and project supply",
@@ -59,7 +59,7 @@ const starterProducts = [
   {
     name: "Patch Cord Pack",
     category: "Accessories",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Essential patch cord pack for installers, maintenance teams and quick service visits.",
     price: "Bulk accessory quote",
     moq: "50 units onwards",
@@ -69,7 +69,7 @@ const starterProducts = [
   {
     name: "Fiber Joint Enclosure",
     category: "Fiber Products",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Protective enclosure for organized splicing and long-life outdoor fiber safety.",
     price: "Ask for project rate",
     moq: "5 pcs onwards",
@@ -79,7 +79,7 @@ const starterProducts = [
   {
     name: "Coaxial Cable Bundle",
     category: "Cable TV Supply",
-    brand: "CiaTel",
+    brand: "CiaTelecom",
     description: "Durable coaxial cable for cable TV operators and long-run signal routing.",
     price: "Rate on inquiry",
     moq: "Per bundle",
@@ -92,7 +92,7 @@ const generalMessages = {
   "header-quote":
     "Hello, I want a quote for your ISP, Fiber and Cable TV products. Please share the available options.",
   "footer-contact":
-    "Hello, I want to contact CiaTel Store regarding your products.",
+    "Hello, I want to contact CiaTelecom Store regarding your products.",
   "floating-cta":
     "Hello, I want to inquire about your products on WhatsApp.",
 };
@@ -490,3 +490,4 @@ function handleGeneralWhatsAppButtons() {
 handleGeneralWhatsAppButtons();
 initStorePage();
 initAdminPage();
+

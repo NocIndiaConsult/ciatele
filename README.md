@@ -1,4 +1,4 @@
-# CiaTel Store
+# CiaTelecom Store
 
 Single-company ecommerce storefront for ISP, Cable TV, Fiber, ONT and Modem products with direct WhatsApp inquiry.
 
@@ -53,3 +53,4 @@ Then open:
 3. Connect the repository.
 4. Render will detect [render.yaml](/C:/Users/LENOVO/Documents/cia%20tel/render.yaml).
 5. Deploy.
+

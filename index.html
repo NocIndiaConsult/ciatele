@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CiaTel Store | Fiber, ISP, Cable TV, ONT & Modem</title>
+    <meta
+      name="description"
+      content="Single-company ecommerce storefront for ISP, cable TV, fiber, ONT and modem products with direct WhatsApp inquiry."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="store-page">
+    <header class="store-header">
+      <div class="header-top">
+        <a class="store-brand" href="#catalog" aria-label="CiaTel Store">
+          <span class="brand-mark">CT</span>
+          <span class="brand-copy">
+            <strong>CiaTel Store</strong>
+            <small>Fiber, Broadband and Cable Hardware</small>
+          </span>
+        </a>
+
+        <form class="header-search" role="search">
+          <input id="productSearch" type="search" placeholder="Search ONT, modem, fiber cable, splitter..." />
+          <button type="button">Search</button>
+        </form>
+
+        <button class="header-contact" type="button" data-whatsapp-trigger="header-quote">
+          WhatsApp Quote
+        </button>
+      </div>
+
+      <div class="header-bar">
+        <span>Single company supply partner</span>
+        <span>Direct inquiry on WhatsApp</span>
+        <span>ISP, Cable TV, Fiber, ONT, Router & Accessories</span>
+      </div>
+    </header>
+
+    <main class="store-main">
+      <section class="catalog-shell" id="catalog">
+        <div class="toolbar-panel">
+          <div class="toolbar-head">
+            <h2>Shop By Category</h2>
+            <label class="sort-wrap">
+              <span>Sort by</span>
+              <select id="sortSelect">
+                <option value="featured">Featured</option>
+                <option value="az">Name A-Z</option>
+                <option value="vendor">Latest Added</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="filter-bar" id="filterRow" aria-label="Product category filters"></div>
+        </div>
+
+        <div class="product-grid" id="productGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="booking-shell" id="booking">
+        <div class="booking-copy">
+          <span class="hero-chip alt">Bulk Orders</span>
+          <h2>Need dealership pricing or a larger booking?</h2>
+          <p>
+            Send your requirement with quantity and location. The message opens directly in the
+            company WhatsApp for quick response.
+          </p>
+        </div>
+
+        <form class="booking-form" id="bookingForm">
+          <div class="form-grid">
+            <label class="field-group">
+              <span>Your name</span>
+              <input type="text" id="customerName" placeholder="Enter your full name" required />
+            </label>
+            <label class="field-group">
+              <span>Mobile number</span>
+              <input type="tel" id="customerPhone" placeholder="Enter mobile number" required />
+            </label>
+          </div>
+
+          <div class="form-grid">
+            <label class="field-group">
+              <span>Interested item</span>
+              <input type="text" id="customerItem" placeholder="Example: GPON ONT Device" required />
+            </label>
+            <label class="field-group">
+              <span>Quantity / requirement</span>
+              <input type="text" id="customerQty" placeholder="Example: 50 pcs" required />
+            </label>
+          </div>
+
+          <label class="field-group">
+            <span>Extra message</span>
+            <textarea id="customerMessage" rows="4" placeholder="City, delivery details or custom note"></textarea>
+          </label>
+
+          <button class="primary-btn" type="submit">Send Booking on WhatsApp</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="store-footer">
+      <div>
+        <strong>CiaTel Store</strong>
+        <p>One company. One storefront. Direct WhatsApp inquiry.</p>
+        <p class="footer-copy">Copyright © CiaTelecom. All rights reserved.</p>
+      </div>
+      <button class="footer-btn" type="button" data-whatsapp-trigger="footer-contact">
+        Contact Company
+      </button>
+    </footer>
+
+    <button class="floating-chat" type="button" data-whatsapp-trigger="floating-cta">
+      WhatsApp Inquiry
+    </button>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

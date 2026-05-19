@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CiaTel Vendor Admin</title>
+    <meta name="description" content="Vendor-only admin screen for managing CiaTel Store products." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="admin-page">
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <span class="admin-chip">Vendor Only</span>
+          <h1>CiaTel Product Admin</h1>
+          <p>This page is for the company vendor only. Add, review and clear store products here.</p>
+        </div>
+        <a class="admin-link" href="./index.html">Open Customer Store</a>
+      </header>
+
+      <section class="admin-layout">
+        <form class="admin-form" id="sellerForm">
+          <h2>Add New Product</h2>
+
+          <label class="field-group">
+            <span>Product name</span>
+            <input type="text" id="sellerProductName" placeholder="Example: GPON ONT Router" required />
+          </label>
+
+          <div class="form-grid">
+            <label class="field-group">
+              <span>Category</span>
+              <select id="sellerCategory" required>
+                <option value="ISP Equipment">ISP Equipment</option>
+                <option value="Fiber Products">Fiber Products</option>
+                <option value="Cable TV Supply">Cable TV Supply</option>
+                <option value="Accessories">Accessories</option>
+              </select>
+            </label>
+
+            <label class="field-group">
+              <span>Brand</span>
+              <input type="text" id="sellerBrand" placeholder="Example: Syrotech" required />
+            </label>
+          </div>
+
+          <div class="form-grid">
+            <label class="field-group">
+              <span>Price label</span>
+              <input type="text" id="sellerPrice" placeholder="Example: Ask for latest rate" required />
+            </label>
+
+            <label class="field-group">
+              <span>Minimum order / unit</span>
+              <input type="text" id="sellerMoq" placeholder="Example: 10 pcs minimum" required />
+            </label>
+          </div>
+
+          <label class="field-group">
+            <span>Product image upload</span>
+            <input type="file" id="sellerImage" accept="image/*" />
+          </label>
+
+          <label class="field-group">
+            <span>Description</span>
+            <textarea id="sellerDescription" rows="4" placeholder="Short product description" required></textarea>
+          </label>
+
+          <div class="admin-actions">
+            <button class="primary-btn" type="submit">Add Product</button>
+            <button class="ghost-btn" id="clearVendorProducts" type="button">Clear Added Products</button>
+          </div>
+        </form>
+
+        <section class="admin-preview">
+          <div class="preview-head">
+            <h2>Current Store Products</h2>
+            <p>These products are visible on the customer-facing store.</p>
+          </div>
+          <div class="admin-product-list" id="adminProductList"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

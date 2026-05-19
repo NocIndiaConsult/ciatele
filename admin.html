@@ -24,9 +24,30 @@
         <a class="admin-link" href="./index.html">Open Customer Store</a>
       </header>
 
-      <section class="admin-layout">
+      <section class="admin-auth" id="adminAuth">
+        <form class="admin-form" id="loginForm">
+          <h2>Admin Login</h2>
+          <label class="field-group">
+            <span>Email</span>
+            <input type="email" id="loginEmail" placeholder="Enter admin email" required />
+          </label>
+          <label class="field-group">
+            <span>Password</span>
+            <input type="password" id="loginPassword" placeholder="Enter password" required />
+          </label>
+          <div class="admin-actions">
+            <button class="primary-btn" type="submit">Login</button>
+          </div>
+          <p class="admin-status" id="loginStatus"></p>
+        </form>
+      </section>
+
+      <section class="admin-layout" id="adminApp" hidden>
         <form class="admin-form" id="sellerForm">
-          <h2>Add New Product</h2>
+          <div class="admin-section-head">
+            <h2>Add New Product</h2>
+            <button class="ghost-btn" id="logoutButton" type="button">Logout</button>
+          </div>
 
           <label class="field-group">
             <span>Product name</span>
@@ -74,8 +95,10 @@
 
           <div class="admin-actions">
             <button class="primary-btn" type="submit">Add Product</button>
+            <button class="ghost-btn" id="seedProductsButton" type="button">Load Starter Products</button>
             <button class="ghost-btn" id="clearVendorProducts" type="button">Clear Added Products</button>
           </div>
+          <p class="admin-status" id="adminStatus"></p>
         </form>
 
         <section class="admin-preview">
@@ -88,6 +111,7 @@
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./app.js"></script>
   </body>
 </html>

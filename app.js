@@ -97,6 +97,15 @@ const generalMessages = {
     "Hello, I want to inquire about your products on WhatsApp.",
 };
 
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isFetchStyleError(error) {
+  const message = error && error.message ? error.message.toLowerCase() : "";
+  return message.includes("failed to fetch") || message.includes("network") || message.includes("fetch");
+}
+
 async function fetchProducts() {
   const { data, error } = await supabaseClient
     .from("products")
@@ -140,6 +149,37 @@ async function deleteProductById(productId) {
   if (error) {
     throw error;
   }
+}
+
+async function loginWithRetry(email, password, statusElement) {
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    if (statusElement) {
+      statusElement.textContent =
+        attempt === 1 ? "Logging in..." : `Retrying secure login (${attempt}/3)...`;
+    }
+
+    try {
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (!error) {
+        return;
+      }
+      lastError = error;
+      if (!isFetchStyleError(error) || attempt === 3) {
+        throw error;
+      }
+    } catch (error) {
+      lastError = error;
+      if (!isFetchStyleError(error) || attempt === 3) {
+        throw error;
+      }
+    }
+
+    await wait(2500);
+  }
+
+  throw lastError || new Error("Login failed");
 }
 
 function buildWhatsAppUrl(message) {
@@ -384,6 +424,16 @@ function initAdminPage() {
     });
   }
 
+  async function warmAdminServices() {
+    loginStatus.textContent = "Preparing secure admin connection...";
+    try {
+      await Promise.allSettled([fetchProducts(), supabaseClient.auth.getSession()]);
+      loginStatus.textContent = "";
+    } catch (error) {
+      loginStatus.textContent = "";
+    }
+  }
+
   async function seedStarterProducts() {
     const current = await fetchProducts();
     if (current.length) {
@@ -397,12 +447,14 @@ function initAdminPage() {
 
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    loginStatus.textContent = "Logging in...";
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) {
-      loginStatus.textContent = error.message;
+    try {
+      await loginWithRetry(email, password, loginStatus);
+    } catch (error) {
+      loginStatus.textContent = isFetchStyleError(error)
+        ? "Secure server did not respond. Please wait 10 seconds and try again."
+        : error.message;
       return;
     }
     loginStatus.textContent = "";
@@ -473,6 +525,8 @@ function initAdminPage() {
       await renderAdminProducts();
     }
   });
+
+  warmAdminServices();
 }
 
 function handleGeneralWhatsAppButtons() {

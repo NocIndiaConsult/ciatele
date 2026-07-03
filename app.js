@@ -719,4 +719,3 @@ handleGeneralWhatsAppButtons();
 initStorePage();
 initAdminPage();
 initHeaderScrollBehavior();
-

@@ -108,9 +108,15 @@ img {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
-  transition: box-shadow 200ms ease;
+  transition: box-shadow 220ms ease, background 220ms ease;
+  /* Keeps the browser from trying to "helpfully" preserve scroll position
+     against this element while its own height animates — that fight is
+     what produced the violent up/down jitter on scroll. */
+  overflow-anchor: none;
 }
 
 .header-top {
@@ -121,30 +127,41 @@ img {
   gap: 24px;
   align-items: center;
   padding: 16px 0;
-  transition: padding 220ms ease, grid-template-columns 220ms ease;
+  transition: padding 240ms cubic-bezier(0.4, 0, 0.2, 1), gap 240ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Compact state: once the page scrolls, the logo/tagline collapse away and
-   only the search bar stays pinned — a slim bar instead of the full header. */
+   only the search bar stays pinned — a slim bar instead of the full header.
+   The brand row shrinks smoothly via max-height + opacity rather than being
+   flipped with display:none, which used to snap the header's height
+   instantly (and, combined with a single scroll threshold, made the sticky
+   bar visibly jitter up and down as the page scrolled past that point). */
 .store-header.header-compact {
   box-shadow: var(--shadow-sm);
 }
 
 .store-header.header-compact .header-top {
-  grid-template-columns: minmax(0, 1fr);
   padding: 10px 0;
+  gap: 0;
 }
 
 .store-header.header-compact .store-brand {
-  display: none;
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
 }
 
 .store-brand {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  max-height: 72px;
+  overflow: hidden;
   color: var(--ink);
   text-decoration: none;
+  opacity: 1;
+  transition: max-height 260ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease,
+    margin 260ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .brand-logo {

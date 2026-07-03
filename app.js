@@ -202,6 +202,103 @@ function getCategories(products) {
   return ["All", ...new Set(products.map((product) => product.category))];
 }
 
+function buildProductWhatsAppMessage(product) {
+  return [
+    "Hello, I want to inquire about this product.",
+    `Product: ${product.name}`,
+    `Category: ${product.category}`,
+    `Brand: ${product.brand}`,
+    `Price Label: ${product.price}`,
+    `Minimum Order: ${product.moq}`,
+    "Please share availability, final price and booking details.",
+  ].join("\n");
+}
+
+function createProductDetailMarkup(product) {
+  const media = product.image_url
+    ? `<img src="${product.image_url}" alt="${product.name}" />`
+    : `<div class="media-fallback">${getProductInitials(product.name)}</div>`;
+
+  const specs = [
+    { label: "Category", value: product.category },
+    { label: "Brand", value: product.brand },
+    { label: "Minimum order", value: product.moq },
+  ];
+
+  return `
+    <div class="detail-overlay" id="productDetailOverlay">
+      <div class="detail-card" role="dialog" aria-modal="true" aria-label="${product.name} details">
+        <button class="detail-close" type="button" id="detailCloseBtn" aria-label="Close product details">&times;</button>
+        <div class="detail-media">${media}</div>
+        <div class="detail-copy">
+          <div class="detail-badges">
+            <span class="badge">${product.category}</span>
+            <span class="badge vendor">In Stock</span>
+          </div>
+          <h2>${product.name}</h2>
+          <p class="detail-description">${product.description}</p>
+          <div class="detail-specs">
+            ${specs
+              .map(
+                (spec) =>
+                  `<div class="detail-spec-row"><span>${spec.label}</span><span>${spec.value}</span></div>`
+              )
+              .join("")}
+          </div>
+          <div class="detail-price">${product.price}</div>
+          <button class="detail-cta" type="button" id="detailWhatsappBtn">Ask on WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function handleDetailKeydown(event) {
+  if (event.key === "Escape") {
+    closeProductDetail();
+  }
+}
+
+function closeProductDetail() {
+  const mount = document.getElementById("productDetailMount");
+  if (mount) {
+    mount.innerHTML = "";
+  }
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", handleDetailKeydown);
+  if (window.location.hash.startsWith("#product-")) {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  }
+}
+
+function openProductDetail(product) {
+  const mount = document.getElementById("productDetailMount");
+  if (!mount) {
+    return;
+  }
+
+  mount.innerHTML = createProductDetailMarkup(product);
+  document.body.style.overflow = "hidden";
+
+  const overlay = document.getElementById("productDetailOverlay");
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) {
+      closeProductDetail();
+    }
+  });
+
+  document.getElementById("detailCloseBtn").addEventListener("click", closeProductDetail);
+  document.getElementById("detailWhatsappBtn").addEventListener("click", () => {
+    openWhatsApp(buildProductWhatsAppMessage(product));
+  });
+
+  document.addEventListener("keydown", handleDetailKeydown);
+
+  if (product.id) {
+    history.replaceState(null, "", `#product-${product.id}`);
+  }
+}
+
 function initStorePage() {
   const productGrid = document.getElementById("productGrid");
   if (!productGrid) {
@@ -307,17 +404,20 @@ function initStorePage() {
       action.type = "button";
       action.className = "product-action";
       action.textContent = "Ask on WhatsApp";
-      action.addEventListener("click", () => {
-        const message = [
-          "Hello, I want to inquire about this product.",
-          `Product: ${product.name}`,
-          `Category: ${product.category}`,
-          `Brand: ${product.brand}`,
-          `Price Label: ${product.price}`,
-          `Minimum Order: ${product.moq}`,
-          "Please share availability, final price and booking details.",
-        ].join("\n");
-        openWhatsApp(message);
+      action.addEventListener("click", (event) => {
+        event.stopPropagation();
+        openWhatsApp(buildProductWhatsAppMessage(product));
+      });
+
+      card.addEventListener("click", () => openProductDetail(product));
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", `View details for ${product.name}`);
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openProductDetail(product);
+        }
       });
 
       card.appendChild(action);
@@ -330,8 +430,20 @@ function initStorePage() {
       allProducts = await fetchProducts();
       renderFilters();
       renderProducts();
+      openProductFromHash();
     } catch (error) {
       productGrid.innerHTML = '<div class="empty-state">Products are temporarily unavailable. Please try again.</div>';
+    }
+  }
+
+  function openProductFromHash() {
+    if (!window.location.hash.startsWith("#product-")) {
+      return;
+    }
+    const targetId = window.location.hash.replace("#product-", "");
+    const match = allProducts.find((product) => String(product.id) === targetId);
+    if (match) {
+      openProductDetail(match);
     }
   }
 

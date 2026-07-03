@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
@@ -48,7 +48,10 @@
       <section class="catalog-shell" id="catalog">
         <div class="toolbar-panel">
           <div class="toolbar-head">
-            <h2>Shop By Category</h2>
+            <div>
+              <span class="section-eyebrow">Full Catalog</span>
+              <h2>Shop By Category</h2>
+            </div>
             <label class="sort-wrap">
               <span>Sort by</span>
               <select id="sortSelect">
@@ -67,7 +70,7 @@
 
       <section class="booking-shell" id="booking">
         <div class="booking-copy">
-          <span class="hero-chip alt">Bulk Orders</span>
+          <span class="section-eyebrow">Bulk Orders</span>
           <h2>Need dealership pricing or a larger booking?</h2>
           <p>
             Send your requirement with quantity and location. The message opens directly in the
@@ -122,6 +125,8 @@
     <button class="floating-chat" type="button" data-whatsapp-trigger="floating-cta">
       WhatsApp Inquiry
     </button>
+
+    <div id="productDetailMount"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./app.js"></script>

@@ -110,16 +110,33 @@ img {
   z-index: 40;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
+  transition: box-shadow 200ms ease;
 }
 
 .header-top {
   width: min(1360px, calc(100% - 32px));
   margin: 0 auto;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 24px;
   align-items: center;
   padding: 16px 0;
+  transition: padding 220ms ease, grid-template-columns 220ms ease;
+}
+
+/* Compact state: once the page scrolls, the logo/tagline collapse away and
+   only the search bar stays pinned — a slim bar instead of the full header. */
+.store-header.header-compact {
+  box-shadow: var(--shadow-sm);
+}
+
+.store-header.header-compact .header-top {
+  grid-template-columns: minmax(0, 1fr);
+  padding: 10px 0;
+}
+
+.store-header.header-compact .store-brand {
+  display: none;
 }
 
 .store-brand {
@@ -238,36 +255,96 @@ img {
   transform: translateY(-1px);
 }
 
-.header-bar {
-  border-top: 1px solid var(--line);
-  color: var(--ink-2);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 28px;
-  justify-content: center;
-  padding: 10px 16px;
-  font-size: 0.82rem;
-}
-
-.header-bar span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-bar span::before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
 .store-main,
 .store-footer,
 .admin-shell {
   width: min(1360px, calc(100% - 32px));
   margin: 28px auto;
+}
+
+/* ============================================================
+   Category spotlight — premium merchandising grid, one wide
+   feature tile + a tall tile + two stacked tiles, mixing
+   horizontal and vertical shapes rather than a uniform row.
+   ============================================================ */
+
+.category-spotlight {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, 132px);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.spotlight-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: linear-gradient(150deg, var(--surface) 0%, var(--surface-2) 100%);
+  text-align: left;
+  overflow: hidden;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.spotlight-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120px 120px at 88% 12%, var(--accent-soft), transparent 70%);
+  opacity: 0.9;
+}
+
+.spotlight-tile > * {
+  position: relative;
+}
+
+.spotlight-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--line-strong);
+}
+
+.spotlight-wide {
+  grid-column: span 2;
+  grid-row: span 2;
+  padding: 26px;
+}
+
+.spotlight-tall {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.spotlight-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.spotlight-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.spotlight-wide .spotlight-title {
+  font-size: 1.35rem;
+}
+
+.spotlight-link {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-strong);
 }
 
 /* ============================================================
@@ -977,21 +1054,18 @@ img {
     grid-template-columns: minmax(0, 1fr) 90px;
   }
 
-  .header-bar {
-    gap: 8px 16px;
-    padding: 10px 14px;
-    justify-content: flex-start;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    scrollbar-width: none;
+  .category-spotlight {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, 120px);
   }
 
-  .header-bar::-webkit-scrollbar {
-    display: none;
+  .spotlight-wide {
+    grid-column: span 2;
+    grid-row: span 1;
   }
 
-  .header-bar span {
-    white-space: nowrap;
+  .spotlight-tall {
+    grid-row: span 1;
   }
 
   .toolbar-panel,
@@ -1085,9 +1159,18 @@ img {
     height: 44px;
   }
 
-  .header-bar {
-    padding-top: 8px;
-    padding-bottom: 8px;
+  .category-spotlight {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 10px;
+  }
+
+  .spotlight-wide,
+  .spotlight-tall,
+  .spotlight-tile {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 108px;
   }
 
   .booking-copy p,

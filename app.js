@@ -198,6 +198,13 @@ function getProductInitials(name) {
     .join("");
 }
 
+function handleImageError(imgEl, initials) {
+  const fallback = document.createElement("div");
+  fallback.className = "media-fallback";
+  fallback.textContent = initials;
+  imgEl.replaceWith(fallback);
+}
+
 function getCategories(products) {
   return ["All", ...new Set(products.map((product) => product.category))];
 }
@@ -216,7 +223,11 @@ function buildProductWhatsAppMessage(product) {
 
 function createProductDetailMarkup(product) {
   const media = product.image_url
-    ? `<img src="${product.image_url}" alt="${product.name}" />`
+    ? `<img
+        src="${product.image_url}"
+        alt="${product.name}"
+        onerror="handleImageError(this, '${getProductInitials(product.name)}')"
+      />`
     : `<div class="media-fallback">${getProductInitials(product.name)}</div>`;
 
   const specs = [
@@ -355,7 +366,12 @@ function initStorePage() {
     if (product.image_url) {
       return `
         <div class="product-media">
-          <img src="${product.image_url}" alt="${product.name}" />
+          <img
+            src="${product.image_url}"
+            alt="${product.name}"
+            loading="lazy"
+            onerror="handleImageError(this, '${getProductInitials(product.name)}')"
+          />
         </div>
       `;
     }
@@ -448,6 +464,9 @@ function initStorePage() {
   }
 
   function handleBookingForm() {
+    if (!bookingForm) {
+      return;
+    }
     bookingForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
@@ -470,12 +489,27 @@ function initStorePage() {
     });
   }
 
+  function handleCategorySpotlight() {
+    document.querySelectorAll(".spotlight-tile").forEach((tile) => {
+      tile.addEventListener("click", () => {
+        activeCategory = tile.getAttribute("data-category") || "All";
+        renderFilters();
+        renderProducts();
+        const catalog = document.getElementById("catalog");
+        if (catalog) {
+          catalog.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+  }
+
   searchInput.addEventListener("input", renderProducts);
   sortSelect.addEventListener("change", renderProducts);
   searchButton.addEventListener("click", renderProducts);
 
   loadStoreProducts();
   handleBookingForm();
+  handleCategorySpotlight();
 }
 
 function initAdminPage() {
@@ -653,7 +687,36 @@ function handleGeneralWhatsAppButtons() {
   });
 }
 
+function initHeaderScrollBehavior() {
+  const header = document.getElementById("siteHeader");
+  if (!header) {
+    return;
+  }
+
+  const COMPACT_THRESHOLD = 72;
+  let ticking = false;
+
+  function updateHeaderState() {
+    header.classList.toggle("header-compact", window.scrollY > COMPACT_THRESHOLD);
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateHeaderState);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  updateHeaderState();
+}
+
 handleGeneralWhatsAppButtons();
 initStorePage();
 initAdminPage();
+initHeaderScrollBehavior();
 
